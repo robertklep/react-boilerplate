@@ -9,7 +9,21 @@ Simple React.js app boilerplate, using the following:
 * `gulp-live-server` (which includes LiveReload for client-side js/css)
 * Stylus
 
-## Directory setup
+### Gulp tasks
+
+##### `$ gulp js`
+
+Generate `app/static/js/bundle.js` from `app/client/app.js` using Browserify.
+
+##### `$ gulp css`
+
+Generate `app/static/css/main.css` from `app/client/stylesheets/main.styl` using Stylus.
+
+##### `$ gulp serve`
+
+Runs `js` and `css` tasks and subsequently starts the Express app (`app/server/index.js`) and installs watchers for frontend and backend file changes.
+
+### Directory structure
 
 ```
 .
