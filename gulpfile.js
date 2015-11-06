@@ -1,22 +1,27 @@
-var gulp       = require('gulp');
-var gls        = require('gulp-live-server');
-var stylus     = require('gulp-stylus');
-var source     = require('vinyl-source-stream');
-var browserify = require('browserify');
-var reactify   = require('reactify');
-var minifyify  = require('minifyify');
-var babelify   = require('babelify');
+var gulp          = require('gulp');
+var gls           = require('gulp-live-server');
+var sass          = require('gulp-sass');
+var source        = require('vinyl-source-stream');
+var browserify    = require('browserify');
+var reactify      = require('reactify');
+var minifyify     = require('minifyify');
+var babelify      = require('babelify');
+var IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 var paths = {
-  main_css : [ 'app/client/stylesheets/main.styl' ],
-  css      : [ 'app/client/stylesheets/**/*.styl' ],
+  main_css : [ 'app/client/stylesheets/main.scss' ],
+  css      : [ 'app/client/stylesheets/**/*.scss' ],
   main_js  : [ 'app/client/app.js' ],
   js       : [ 'app/client/**/*.js*' ],
 };
 
 gulp.task('css', function() {
   return gulp .src(paths.main_css)
-              .pipe(stylus())
+              .pipe(
+                sass({
+                  outputStyle: IS_PRODUCTION ? 'compressed' : 'nested'
+                }).on('error', sass.logError)
+              )
               .pipe(gulp.dest('app/static/css/'));
 });
 
@@ -25,7 +30,7 @@ gulp.task('js', function() {
                 .transform(reactify)
                 .transform(babelify);
 
-  if (process.env.NODE_ENV === 'production') {
+  if (IS_PRODUCTION) {
     bundler = bundler.plugin('minifyify', {
       map      : false,
       compress : {
@@ -41,7 +46,7 @@ gulp.task('js', function() {
 });
 
 gulp.task('serve', [ 'css', 'js' ], function () {
-  // Generic watch tasks for Stylus and Browserify
+  // Generic watch tasks for SASS and Browserify
   gulp.watch(paths.css, [ 'css' ]);
   gulp.watch(paths.js,  [ 'js'  ]);
 

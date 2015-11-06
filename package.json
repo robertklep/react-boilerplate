@@ -14,7 +14,7 @@
     "gulp": "^3.9.0",
     "gulp-cli": "^0.3.0",
     "gulp-live-server": "0.0.29",
-    "gulp-stylus": "^2.1.0",
+    "gulp-sass": "^2.1.0",
     "minifyify": "^7.1.0",
     "reactify": "^1.1.1",
     "vinyl-source-stream": "^1.1.0",
