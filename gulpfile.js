@@ -40,9 +40,10 @@ gulp.task('js', function() {
     })
   }
 
-  return bundler.bundle()
-                .pipe(source('bundle.js'))
-                .pipe(gulp.dest('app/static/js'));
+  bundler.bundle().on('error', function(err) {
+    console.error('[browserify error]', err.message);
+  }).pipe(source('bundle.js'))
+    .pipe(gulp.dest('app/static/js'));
 });
 
 gulp.task('serve', [ 'css', 'js' ], function () {
