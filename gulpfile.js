@@ -27,8 +27,9 @@ gulp.task('css', function() {
 
 gulp.task('js', function() {
   var bundler = browserify(paths.main_js)
-                .transform(reactify)
-                .transform(babelify);
+                .transform('babelify', {
+                  presets : [ 'es2015', 'react' ]
+                });
 
   if (IS_PRODUCTION) {
     bundler = bundler.plugin('minifyify', {
